@@ -1,0 +1,80 @@
+swagger: '2.0'
+info:
+  title: domain OpenAPI
+  version: 2.0.0
+  description: domain OpenAPI
+  license:
+    name: 域名管理
+    url: 'https://oss.yun.ccb.com'
+
+# 上下文路径（禁止通过 server.servlet.context-path 配置）
+basePath: '/domain/openapi/v1'
+
+# API类型（forntapi | serviceapi | openapi）
+x-api-type: openapi
+
+# 应用类型，与 spring.application.name 配置保持一致
+x-application-name: domain-main
+
+schemes:
+  - http
+
+produces:
+  - application/json
+
+tags:
+  - name: ticket_information
+    description: 工单信息
+
+paths:
+  '/ticket_information/notify':
+    post:
+      operationId: notifyTicketInfo
+      summary: '通知工单信息'
+      description: '通知工单信息'
+      tags:
+        - ticket_information
+      parameters:
+        - name: apikey
+          in: query
+          description: 访问APIKEY
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 成功
+        400:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+definitions:
+  ErrorResponse:
+    type: object
+    required:
+      - error
+    properties:
+      error:
+        $ref: '#/definitions/Error'
+  Error:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+        description: 错误编码
+        example: ERR-500
+      message:
+        type: string
+        description: 错误消息
+        example: 用户名称不能为空
+      path:
+        type: string
+        description: 请求路径
+        example: '/v2/cloud/save'
+      time:
+        type: string
+        description: 出错时间
+        example: '2019-03-23 09:11:20'

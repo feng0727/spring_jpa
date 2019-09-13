@@ -1,0 +1,62 @@
+{
+  "entryChunk": {
+    "index": "./src/index.js"
+  },
+  "template": [
+    {
+      "path": "./public/index.html",
+      "entry": "index"
+    }
+  ],
+  "vars": {
+    "importLayout": true
+  },
+  "alias": {
+    "~": "./src"
+  },
+  "commonChunk": {
+    "vendor": [
+      "react",
+      "react-dom",
+      "react-router",
+      "mobx"
+    ]
+  },
+  "proxy": [
+    {
+      "context": [
+        "/api/**",
+        "/tenant/**",
+        "/notify/**",
+        "/frontend/**"
+      ],
+      "target": "http://172.16.0.30",
+      "secure": false
+    },
+    {
+      "context": [
+        "/domain/frontapi/v1"
+      ],
+      "target": "http://127.0.0.1:8090"
+    }
+  ],
+  "extraBabelPlugins": [
+    [
+      "import",
+      [
+        {
+          "libraryName": "@uyun/components"
+        }
+      ]
+    ],
+    [
+      "@uyun/everest-i18n/babel",
+      {
+        "locales": "./src/common/locales.json",
+        "translators": [
+          "__"
+        ]
+      }
+    ]
+  ]
+}

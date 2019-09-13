@@ -1,0 +1,54 @@
+#!/bin/bash
+
+CURRENT_DIR=$(cd "$(dirname "$0")"; pwd)
+cd $CURRENT_DIR
+
+ACTION=$1
+
+help() {
+    echo "usage: umvn {generate-sources|local-test|package}"
+}
+
+generate-sources() {
+    mvn clean \
+        swagger-codegen:generate@spring-front \
+        swagger-codegen:generate@spring-service \
+        swagger-codegen:generate@spring-open \
+        swagger-codegen:generate@html-front \
+        swagger-codegen:generate@html-service \
+        swagger-codegen:generate@html-open \
+        swagger-codegen:generate@javascript \
+        antrun:run@process-src \
+        frontend:install-node-and-npm@install-node-npm \
+        frontend:npm@npm-run-install
+}
+
+local-test() {
+    frontend_dir="$CURRENT_DIR/src/main/frontend"
+    osascript -e 'tell app "Terminal" to do script with command "cd '$frontend_dir'; npm start"'
+    mvn clean spring-boot:run -Dmaven.test.skip=true
+}
+
+package() {
+    mvn clean package -Dmaven.test.skip=true -PdisableNpmInstall
+}
+
+if [ -z "$ACTION" ]; then
+    help
+    exit 1
+fi
+
+case "$ACTION" in
+    'generate-sources')
+        generate-sources
+        ;;
+    'local-test')
+        local-test
+        ;;
+    'package')
+        package
+        ;;
+    *)
+        help
+        exit 1
+esac

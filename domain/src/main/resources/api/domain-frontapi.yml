@@ -1,0 +1,511 @@
+swagger: '2.0'
+info:
+  title: domain FrontAPI
+  version: 2.0.0
+  description: domain FrontAPI
+  license:
+    name: 域名管理
+    url: 'https://oss.yun.ccb.com'
+
+# 上下文路径（禁止通过 server.servlet.context-path 配置）
+basePath: '/domain/frontapi/v1'
+
+# API类型（forntapi | serviceapi | openapi）
+x-api-type: frontapi
+
+# 应用类型，与 spring.application.name 配置保持一致
+x-application-name: domain-main
+
+schemes:
+  - http
+
+produces:
+  - application/json
+
+tags:
+  - name: domain
+    description: 域名管理
+  - name: history_domain
+    description: 历史域名信息
+#  - name: relation
+#    description: 工单-域名关系
+
+paths:
+  '/domain/create':
+    post:
+      operationId: insertDomain
+      summary: '新增域名'
+      description: '新增一条域名信息'
+      tags:
+        - domain
+      parameters:
+        - name: domainVO
+          in: body
+          description: '域名信息'
+          schema:
+            $ref: '#/definitions/DomainVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/DomainVO'
+        500:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  '/domain/update':
+    post:
+      operationId: updateDomainById
+      summary: '更新域名信息'
+      description: '更新域名信息'
+      tags:
+        - domain
+      parameters:
+        - name: domainVO
+          in: body
+          description: '域名信息'
+          schema:
+            $ref: '#/definitions/DomainVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/DomainVO'
+        500:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  '/domain/delete':
+    post:
+      operationId: deleteDomainById
+      summary: '删除域名信息'
+      description: '删除域名信息'
+      tags:
+        - domain
+      parameters:
+        - name: domain_id
+          in: query
+          description: '域名ID'
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/DomainVO'
+        500:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+
+
+
+
+  '/history_domain/create':
+    post:
+      operationId: insertHistoryDomain
+      summary: '新增历史域名'
+      description: '新增历史域名信息'
+      tags:
+        - history_domain
+      parameters:
+        - name: DomainHistoryVO
+          in: body
+          description: '历史域名信息'
+          schema:
+            $ref: '#/definitions/DomainHistoryVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/DomainHistoryVO'
+        500:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  '/history_domain/filter':
+    get:
+      operationId: historyDomainFilter
+      summary: '历史域名筛选'
+      description: '历史域名筛选'
+      tags:
+        - history_domain
+      parameters:
+        - name: DomainHistoryVO
+          in: body
+          description: '历史域名信息'
+          schema:
+            $ref: '#/definitions/DomainHistoryVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DomainHistoryVO'
+        400:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+
+
+
+  '/relation/create':
+    post:
+      operationId: insertRelation
+      summary: '新增工单-域名关系'
+      description: '新增工单-域名信息'
+      tags:
+        - relation
+      parameters:
+        - name: RelationVO
+          in: body
+          description: '工单-域名关系信息'
+          schema:
+            $ref: '#/definitions/RelationVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/RelationVO'
+        500:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  '/relation/update':
+    post:
+      operationId: updateRelation
+      summary: '更新工单-域名关系信息'
+      description: '更新工单-域名关系信息'
+      tags:
+        - relation
+      parameters:
+        - name: RelationVO
+          in: body
+          description: '更新工单-域名关系信息'
+          schema:
+            $ref: '#/definitions/RelationVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/RelationVO'
+        500:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  '/relation/filter':
+    get:
+      operationId: relationFilter
+      summary: '工单-域名关系筛选'
+      description: '工单-域名关系筛选'
+      tags:
+        - relation
+      parameters:
+        - name: RelationVO
+          in: body
+          description: '工单-域名关系信息'
+          schema:
+            $ref: '#/definitions/RelationVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RelationVO'
+        400:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+
+
+definitions:
+  ErrorResponse:
+    type: object
+    required:
+      - error
+    properties:
+      error:
+        $ref: '#/definitions/Error'
+  Error:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+        description: 错误编码
+        example: ERR-500
+      message:
+        type: string
+        description: 错误消息
+        example: 用户名称不能为空
+      path:
+        type: string
+        description: 请求路径
+        example: '/v2/cloud/save'
+      time:
+        type: string
+        description: 出错时间
+        example: '2019-03-23 09:11:20'
+
+  DomainVO:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: '域名ID'
+      domain_name:
+        type: string
+        description: '域名标示'
+      record:
+        type: string
+        description: '备案情况'
+      sys_service:
+        type: string
+        description: '系统服务'
+      port:
+        type: string
+        description: '端口'
+      if_certificate:
+        type: boolean
+        description: '是否需要证书'
+      owner:
+        type: string
+        description: '责任单位'
+      linkman:
+        type: string
+        description: '责任人'
+      email:
+        type: string
+        description: '邮箱'
+      phone:
+        type: string
+        description: '电话'
+      inter_access:
+        type: boolean
+        description: '互联网渠道访问'
+      inter_ip:
+        type: string
+        description: 'service IP1'
+      inter_if_analysis:
+        type: boolean
+        description: '解析现状1'
+      everest_access:
+        type: boolean
+        description: '建行内网访问（办公网）'
+      everest_ip:
+        type: string
+        description: 'service IP2'
+      everest_if_analysis:
+        type: boolean
+        description: '解析现状2'
+      ecc_access:
+        type: boolean
+        description: 'ECC终端访问'
+      ecc_ip:
+        type: string
+        description: 'service IP3'
+      ecc_if_analysis:
+        type: boolean
+        description: '解析现状3'
+      vpc_access:
+        type: boolean
+        description: '租户VPC内访问'
+      vpc_ip:
+        type: string
+        description: 'service IP4'
+      vpc_if_analysis:
+        type: boolean
+        description: '解析现状4'
+      ccb_other_access:
+        type: boolean
+        description: '建行云其它组件访问'
+      ccb_other_ip:
+        type: string
+        description: 'service IP5'
+      ccb_other_analysis:
+        type: boolean
+        description: '解析现状5'
+      property:
+        type: string
+        description: '域名性质'
+      application_date:
+        type: integer
+        format: int64
+        description: '申请备案日期'
+      es_commission_time:
+        type: integer
+        format: int64
+        description: '预计投产时间'
+      remark:
+        type: string
+        description: '备注'
+      creator:
+        type: string
+        description: '创建人'
+      create_time:
+        type: integer
+        format: int64
+        description: '创建时间'
+      update_time:
+        type: integer
+        format: int64
+        description: '修改时间'
+      start_time:
+        type: integer
+        format: int64
+        description: '开始时间'
+      end_time:
+        type: integer
+        format: int64
+        description: '结束时间'
+  DomainHistoryVO:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: '序号'
+      domain_id:
+        type: integer
+        description: '域名ID'
+      domain_name:
+        type: string
+        description: '域名标示'
+      record:
+        type: string
+        description: '备案情况'
+      sys_service:
+        type: string
+        description: '系统服务'
+      port:
+        type: string
+        description: '端口'
+      if_certificate:
+        type: boolean
+        description: '是否需要证书'
+      owner:
+        type: string
+        description: '责任单位'
+      linkman:
+        type: string
+        description: '责任人'
+      email:
+        type: string
+        description: '邮箱'
+      phone:
+        type: string
+        description: '电话'
+      inter_access:
+        type: boolean
+        description: '互联网渠道访问'
+      inter_ip:
+        type: string
+        description: 'service IP1'
+      inter_if_analysis:
+        type: boolean
+        description: '解析现状1'
+      everest_access:
+        type: boolean
+        description: '建行内网访问（办公网）'
+      everest_ip:
+        type: string
+        description: 'service IP2'
+      everest_if_analysis:
+        type: boolean
+        description: '解析现状2'
+      ecc_access:
+        type: boolean
+        description: 'ECC终端访问'
+      ecc_ip:
+        type: string
+        description: 'service IP3'
+      ecc_if_analysis:
+        type: boolean
+        description: '解析现状3'
+      vpc_access:
+        type: boolean
+        description: '租户VPC内访问'
+      vpc_ip:
+        type: string
+        description: 'service IP4'
+      vpc_if_analysis:
+        type: boolean
+        description: '解析现状4'
+      ccb_other_access:
+        type: boolean
+        description: '建行云其它组件访问'
+      ccb_other_ip:
+        type: string
+        description: 'service IP5'
+      ccb_other_analysis:
+        type: boolean
+        description: '解析现状5'
+      property:
+        type: string
+        description: '域名性质'
+      application_date:
+        type: integer
+        format: int64
+        description: '申请备案日期'
+      es_commission_time:
+        type: integer
+        format: int64
+        description: '预计投产时间'
+      remark:
+        type: string
+        description: '备注'
+      creator:
+        type: string
+        description: '创建人'
+      create_time:
+        type: integer
+        format: int64
+        description: '创建时间'
+      update_time:
+        type: integer
+        format: int64
+        description: '修改时间'
+      start_time:
+        type: integer
+        format: int64
+        description: '开始时间'
+      end_time:
+        type: integer
+        format: int64
+        description: '结束时间'
+  RelationVO:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: '序号'
+      domain_id:
+        type: integer
+        description: '域名ID'
+      ticked_id:
+        type: string
+        description: '工单号'
+      ticked_creator:
+        type: string
+        description: '工单创建人'
+      create_time:
+        type: integer
+        format: int64
+        description: '工单创建时间'
+      update_time:
+        type: integer
+        format: int64
+        description: '工单修改时间'
+      ticket_state:
+        type: string
+        description: '工单状态'

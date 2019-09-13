@@ -1,0 +1,310 @@
+swagger: '2.0'
+info:
+  title: SpringCloud & Swagger ServiceAPI
+  version: 2.0.0
+  description: domain ServiceAPI
+  license:
+    name: 优云软件
+    url: 'https://www.uyun.cn'
+
+# 上下文路径（禁止通过 server.servlet.context-path 配置）
+basePath: '/domain/serviceapi/v1'
+
+# API类型（forntapi | serviceapi | openapi）
+x-api-type: serviceapi
+
+# 应用类型，与 spring.application.name 配置保持一致
+x-application-name: domain-main
+
+schemes:
+  - http
+
+produces:
+  - application/json
+
+tags:
+  - name: domain
+    description: 域名管理
+  - name: history_domain
+    description: 历史域名信息
+  - name: relation
+    description: 工单-域名关系
+
+paths:
+  '/domain/query':
+    get:
+      operationId: queryDomainById
+      summary: '获取域名信息'
+      description: '获取域名信息'
+      tags:
+        - domain
+      parameters:
+        - name: domain_id
+          in: query
+          description: '域名信息'
+          required: true
+          type: int
+      responses:
+        '200':
+          description: 成功
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DomainVO'
+        400:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  # path必须以资源名词开头
+
+  '/domain/create':
+    post:
+      operationId: insertDomain
+      summary: '新增域名'
+      description: '新增一条域名信息'
+      tags:
+        - domain
+      parameters:
+        - name: domainVO
+          in: body
+          description: '域名信息'
+          schema:
+            $ref: '#/definitions/DomainVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/DomainVO'
+        500:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  '/domain/update':
+    post:
+      operationId: updateDomainById
+      summary: '更新域名信息'
+      description: '更新域名信息'
+      tags:
+        - domain
+      parameters:
+        - name: domainVO
+          in: body
+          description: '域名信息'
+          schema:
+            $ref: '#/definitions/DomainVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/DomainVO'
+        500:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  '/domain/filter':
+    get:
+      operationId: domainFilter
+      summary: '域名筛选'
+      description: '域名筛选'
+      tags:
+        - domain
+      parameters:
+        - name: domainVO
+          in: body
+          description: '域名信息'
+          schema:
+            $ref: '#/definitions/DomainVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DomainVO'
+        400:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  '/domain/delete':
+    post:
+      operationId: deleteDomainById
+      summary: '删除域名信息'
+      description: '删除域名信息'
+      tags:
+        - domain
+      parameters:
+        - name: domain_id
+          in: query
+          description: '域名ID'
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/DomainVO'
+        500:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+
+
+
+
+  '/history_domain/create':
+    post:
+      operationId: insertHistoryDomain
+      summary: '新增历史域名'
+      description: '新增历史域名信息'
+      tags:
+        - history_domain
+      parameters:
+        - name: DomainHistoryVO
+          in: body
+          description: '历史域名信息'
+          schema:
+            $ref: '#/definitions/DomainHistoryVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/DomainHistoryVO'
+        500:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  '/history_domain/filter':
+    get:
+      operationId: historyDomainFilter
+      summary: '历史域名筛选'
+      description: '历史域名筛选'
+      tags:
+        - history_domain
+      parameters:
+        - name: DomainHistoryVO
+          in: body
+          description: '历史域名信息'
+          schema:
+            $ref: '#/definitions/DomainHistoryVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DomainHistoryVO'
+        400:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+
+
+
+  '/relation/create':
+    post:
+      operationId: insertRelation
+      summary: '新增工单-域名关系'
+      description: '新增工单-域名信息'
+      tags:
+        - relation
+      parameters:
+        - name: RelationVO
+          in: body
+          description: '工单-域名关系信息'
+          schema:
+            $ref: '#/definitions/RelationVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/RelationVO'
+        500:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  '/relation/update':
+    post:
+      operationId: updateRelation
+      summary: '更新工单-域名关系信息'
+      description: '更新工单-域名关系信息'
+      tags:
+        - relation
+      parameters:
+        - name: RelationVO
+          in: body
+          description: '更新工单-域名关系信息'
+          schema:
+            $ref: '#/definitions/RelationVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/RelationVO'
+        500:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  '/relation/filter':
+    get:
+      operationId: relationFilter
+      summary: '工单-域名关系筛选'
+      description: '工单-域名关系筛选'
+      tags:
+        - relation
+      parameters:
+        - name: RelationVO
+          in: body
+          description: '工单-域名关系信息'
+          schema:
+            $ref: '#/definitions/RelationVO'
+      responses:
+        '200':
+          description: 成功
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RelationVO'
+        400:
+          description: 失败
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+
+
+definitions:
+  ErrorResponse:
+    type: object
+    required:
+      - error
+    properties:
+      error:
+        $ref: '#/definitions/Error'
+  Error:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+        description: 错误编码
+        example: ERR-500
+      message:
+        type: string
+        description: 错误消息
+        example: 用户名称不能为空
+      path:
+        type: string
+        description: 请求路径
+        example: '/v2/cloud/save'
+      time:
+        type: string
+        description: 出错时间
+        example: '2019-03-23 09:11:20'

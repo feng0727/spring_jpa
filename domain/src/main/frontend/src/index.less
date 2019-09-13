@@ -1,0 +1,52 @@
+@import "~@uyun/components/dist/index.css";
+
+// @scrollbar-color: @gray-top, @deep-list-1, @black-list-1;
+// @scrollbar-thumb-color: @gray-fonts-disable, @deep-fonts-disable, @black-fonts-disable;
+
+#root {
+  padding: 0;
+}
+
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 8px;
+  }
+
+::-webkit-scrollbar-track {
+  // background-color: @scrollbar-color;
+  width: 15px;
+}
+
+// ::-webkit-scrollbar-corner{
+//   background-color: @scrollbar-color;
+// }
+
+// ::-webkit-scrollbar-track-piece {
+//   background-color: @scrollbar-color;
+// }
+
+::-webkit-scrollbar-thumb {
+  // background-color: @scrollbar-thumb-color;
+  width: 8px;
+  border-radius: 8px;
+}
+
+// ::-webkit-scrollbar-thumb:hover {
+//   background-color: @scrollbar-thumb-color;
+// }
+
+.ec-user-picker-select-item {
+  .uyunicon-check {
+      display: none;
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      margin-top: -8px;
+  }
+  &.uyun-dropdown-menu-item-selected {
+      .uyunicon-check {
+          display: block;
+      }
+  }
+}

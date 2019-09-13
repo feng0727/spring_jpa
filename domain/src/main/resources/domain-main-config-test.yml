@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://${mysql.ip}:${mysql.port}/${biz.app.lower-code}?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=true&verifyServerCertificate=false
+    username: ${mysql.username.domain}
+    password: ${mysql.password.domain}
+    driver-class-name: com.mysql.jdbc.Driver
+
+dubbo:
+  registry:
+    address: ${zk.url}

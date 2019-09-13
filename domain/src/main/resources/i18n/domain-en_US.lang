@@ -1,0 +1,7 @@
+500=Internal Server Error
+400=Bad Request or ArgumentException
+404=Request address not Find
+
+domain.common.args.required=Argument ''{0}'' is required
+domain.common.args.invalid=Value ''{1}'' is invalid for argument ''{0}''
+domain.todo.acl.not_authorized_acl=Not authorized to perform ''{1}'' on object ''{0}''

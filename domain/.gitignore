@@ -1,0 +1,38 @@
+/target/
+/logs/
+
+# dependencies
+/src/main/frontend/node_modules
+
+# generated files
+/src/main/java/**/frontapi
+/src/main/java/**/openapi
+/src/main/java/**/serviceapi
+/src/main/frontend/src/utils/swagger-api
+
+# production
+/src/main/frontend/dist
+/src/main/frontend/build
+/src/main/frontend/coverage
+
+# misc
+/src/main/frontend/.DS_Store
+/src/main/frontend/*.log
+/src/main/frontend/npm-debug.log*
+/src/main/frontend/yarn-debug.log*
+/src/main/frontend/yarn-error.log
+
+/coverage
+.idea
+/src/main/frontend/yarn.lock
+/src/main/frontend/package-lock.json
+
+.h2
+.classpath
+.project
+.settings
+
+.idea
+*.iws
+*.iml
+*.ipr
